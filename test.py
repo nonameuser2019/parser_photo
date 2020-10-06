@@ -21,6 +21,6 @@ def save_image(name, file_obj):
         print('.I.')
 
 
-file_obj = get_photo('https://altstar.com.ua/image/catalog/product/Bosch/0001109290.jpg')
+file_obj = get_photo('https://static.ukrparts.com.ua/media/images/4426/44260157503255.jpg')
 print(file_obj)
-save_image('1.JPG', file_obj)
+save_image('test.JPG', file_obj)

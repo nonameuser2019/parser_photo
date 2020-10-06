@@ -7,8 +7,7 @@ ua = UserAgent()
 HEADER = {
     'user-agent': ua.random
 }
-main_url = input('Enter link ')
-dir_name = input('Enter path ')
+main_url = input('Enter link ') + '?page='
 
 
 def get_html(url):
@@ -47,16 +46,24 @@ def parser(html):
     soup = BeautifulSoup(html.content, 'html.parser')
     card_list = soup.find_all('div', class_='product-layout')
     for card in card_list:
-        img = card.find('picture').find('img')['src']
-        art = card.find('picture').find('img')['alt']
-        save_image(dir_name + '/' + art + '.JPG', get_photo(img))
+        img = card.find('picture').find('img')['src'].strip()
+        art = card.find('picture').find('img')['alt'].replace('/', '')
+        try:
+            brand_str = card.find('div', class_='man_image').find('img')['data-tip']
+            dir_name = brand_str[brand_str.find('-') + 1:]
+        except:
+            dir_name = 'other'
+        try:
+            os.mkdir(dir_name)
+        except:
+            print(f'{dir_name} already exists')
+        try:
+            save_image(dir_name + '/' + art + '.JPG', get_photo(img))
+        except:
+            print(f'Error {art}')
 
 def main():
-    try:
-        os.mkdir(dir_name)
-    except:
-        print(f'{dir_name} already exists')
-    page_count = input('Enter page count ')
+    page_count = get_page_count(get_html(main_url))
     for count in range(1, int(page_count) + 1):
         parser(get_html(main_url + str(count)))
         print(f'{count} / {page_count}')
