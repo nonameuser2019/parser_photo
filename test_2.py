@@ -24,9 +24,21 @@ def read_input():
     return cat_url_list
 
 
-url = 'https://ukrparts.com.ua/category/tormoznie-diski/c-25/'
-url_list = read_input()
-print(url_list)
+url = 'https://traffic-auto.by/datchik-abs/'
+html = get_html(url)
+soup = BeautifulSoup(html.content, 'html.parser')
+card_list = soup.find_all('div', class_='part-item-view')
+for card in card_list:
+    brand = card.find('div', class_='part-name').find('a').text
+    brand_list = brand.split('\n')
+    brand_clear = brand_list[1].strip('\t').strip()
+    art = brand_list[2].strip('\t').strip()
+    link_img = card.find('div', class_='part-photo').find('a').find('img')['data-src']
+    logo = link_img.find('logos')
+    if logo == -1:
+        print(brand_clear, art, link_img)
+
+
 
 
 

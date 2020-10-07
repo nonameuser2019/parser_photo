@@ -21,6 +21,6 @@ def save_image(name, file_obj):
         print('.I.')
 
 
-file_obj = get_photo('https://static.ukrparts.com.ua/media/images/4426/44260157503255.jpg')
+file_obj = get_photo('https://static.iauto.by/images/1/00019199903255.jpg')
 print(file_obj)
 save_image('test.JPG', file_obj)
