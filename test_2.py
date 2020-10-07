@@ -15,13 +15,18 @@ def get_html(url):
         print(html.status_code)
 
 
-url = 'https://ukrparts.com.ua/category/tormoznie-diski/c-25/?page=44'
-html = get_html(url)
-soup = BeautifulSoup(html.content, 'html.parser')
-card_list = soup.find_all('div', class_='part_box')
-for card in card_list:
-    dir_name = card.find('div', class_='part_brand').text
-    print(dir_name)
+def read_input():
+    # читает файл с ссылками на категории
+    cat_url_list = []
+    with open('input.txt', 'r') as r:
+        for line in r:
+            cat_url_list.append(line.strip('\n'))
+    return cat_url_list
+
+
+url = 'https://ukrparts.com.ua/category/tormoznie-diski/c-25/'
+url_list = read_input()
+print(url_list)
 
 
 

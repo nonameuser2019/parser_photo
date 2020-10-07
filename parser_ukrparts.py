@@ -8,7 +8,6 @@ HEADER = {
     'user-agent': ua.random
 }
 sub_url = '?page='
-main_url = input('Enter main url ')
 sub_dir = 'images/'
 
 def get_html(url):
@@ -50,15 +49,27 @@ def parser(html):
                 pass
             save_image(sub_dir + dir_name + '/' + art + '.JPG', get_photo(link_img))
     else:
-        raise SystemExit
+        return 1
 
+
+def read_input():
+    # читает файл с ссылками на категории
+    cat_url_list = []
+    with open('input.txt', 'r') as r:
+        for line in r:
+            cat_url_list.append(line.strip('\n'))
+    return cat_url_list
 
 
 def main():
-    for i in range(1, 5000):
-        html = get_html(main_url + sub_url + str(i))
-        parser(html)
-        print(f'page {i}')
+    url_list = read_input()
+    for url in url_list:
+        for i in range(1, 5000):
+            html = get_html(url + sub_url + str(i))
+            print(f'page {i}')
+            ret = parser(html)
+            if ret == 1:
+                break
 
 
 if __name__ == '__main__':
